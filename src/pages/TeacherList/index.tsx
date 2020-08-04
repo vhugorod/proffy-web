@@ -2,7 +2,7 @@ import React from 'react';
 
 function TeacherList() {
   return (
-    <h1>Techers</h1>
+    <h1>Teachers list</h1>
   )
 }
 
