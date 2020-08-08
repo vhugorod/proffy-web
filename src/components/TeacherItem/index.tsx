@@ -1,35 +1,56 @@
 import React from 'react';
 
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg'
+import api from '../../services/api';
 
 import './styles.css';
 
-function TeacherItem() {
+export interface Teacher {
+  id: number;
+  avatar: string;
+  bio: string;
+  cost: number;
+  name: string;
+  subject: string;
+  whatsapp: string;
+}; 
+
+interface TeacherItemProps {
+  teacher: Teacher;
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
+  function createNewConnection() {
+    api.post('connections', {
+      user_id: teacher.id,
+    })
+  }
+
   return (
     <article className="teacher-item">
           <header>
-            <img src="https://avatars0.githubusercontent.com/u/42505927?s=460&u=db4f2a4c909f412ab2787b8647130a015b50ce0e&v=4" alt="Vitor Rodrigues"/>
+            <img src={teacher.avatar} alt={teacher.name}/>
             <div>
-              <strong>Vitor Rodrigues</strong>
-              <span>Matemática</span>
+              <strong>{teacher.name}</strong>
+              <span>{teacher.subject}</span>
             </div>
           </header>
 
-          <p>
-            Entusiasta em matemática.
-            <br /><br />
-            Apaixonado por ensinar de uma maneira didática, intuitiva e compartilha todo seu conhecimento com os alunos.
-          </p>
+          <p>{teacher.bio}</p>
 
           <footer>
             <p>
               Preço/hora
-              <strong>R$ 80,00</strong>
+              <strong>R$ {teacher.cost}</strong>
             </p>
-            <button type="button">
+            <a 
+              target="_blank" 
+              onClick={createNewConnection} 
+              href={`https://wa.me/${teacher.whatsapp}`}
+            >
               <img src={whatsappIcon} alt="Whatsapp"/>
               Entrar em contato
-            </button>
+            </a>
           </footer>
         </article>
   )
